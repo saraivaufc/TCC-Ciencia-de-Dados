@@ -1,10 +1,10 @@
 import hashlib
-from os import listdir
+from os import listdir, sep
 from os.path import isfile, join
 
 import pandas as pd
 
-folder = '.'
+folder = 'D:\DATASETS\LABMET\processed'
 files = [f for f in listdir(folder) if
          isfile(join(folder, f)) and f.find('.xls') != -1]
 
@@ -54,7 +54,7 @@ for file in files:
 
     print("File:", file)
 
-    xl = pd.ExcelFile(file)
+    xl = pd.ExcelFile(folder + sep + file)
     station_info = next(iter(xl.parse(header=0, nrows=1).to_dict().keys()))
     station_code = hashlib.md5(station_info.encode()).hexdigest()
 
@@ -111,7 +111,8 @@ for variable in dataframes_variables_keys[1:]:
 start_date = final_df['Data'].min().strftime('%Y-%m-%d')
 end_date = final_df['Data'].max().strftime('%Y-%m-%d')
 
-dataframe_stations.to_csv('labmet_automatic_stations_codes.csv', index=False)
+dataframe_stations.to_csv('labmet_automatic_stations_codes.csv',
+                          index=False, sep=";")
 final_df.to_csv(
     'labmet_automatic_stations_{}_{}.csv'.format(start_date, end_date),
-    index=False)
+    index=False, sep = ";")

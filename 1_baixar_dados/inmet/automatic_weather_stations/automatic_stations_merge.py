@@ -1,5 +1,7 @@
 import re
+import datetime
 from pathlib import Path
+import zipfile
 
 import pandas as pd
 
@@ -21,12 +23,13 @@ def get_station_data(path):
 
     return station_df['CODIGO'].values[0], station_df
 
+def convert_data(value, input_format, output_format):
+    return datetime.datetime.strptime(value, input_format).strftime(output_format)
 
 def convert_hora(value):
     value = re.sub("[^0-9]", "", value)
-    if len(value) == 4:
-        value = value[:2]
-    return int(value)
+    value = value[:2].ljust(4, '0')
+    return value
 
 
 def get_climate_data(path):
@@ -35,6 +38,9 @@ def get_climate_data(path):
                              header=8)
 
     climate_df = climate_df[climate_df.columns[:19]]
+    if 'Data' in climate_df.columns:
+        climate_df['Data'] = climate_df['Data']\
+            .apply(lambda x: convert_data(x, '%Y/%m/%d', '%Y-%m-%d'))
 
     climate_df.columns = [
         'DATA (YYYY-MM-DD)',
@@ -57,40 +63,48 @@ def get_climate_data(path):
         'VENTO, RAJADA MAXIMA (m/s)',
         'VENTO, VELOCIDADE HORARIA (m/s)'
     ]
-    climate_df['HORA (UTC)'] = climate_df['HORA (UTC)'].apply(
-        lambda x: convert_hora(x))
+
+    climate_df['HORA (UTC)'] = climate_df['HORA (UTC)']\
+            .apply(lambda x: convert_hora(x))
+
     return climate_df
-
-
-all_files = [i for i in Path(
-    'conventional_weather_stations/data/automatic_stations_csv').rglob('*.CSV')]
 
 stations = {}
 climate_data_all = []
 
-for file in all_files:
-    print('Processing {f}...'.format(f=file))
+all_zipped_files = [i for i in Path('.').rglob('*.zip')]
+for zipped_file in all_zipped_files:
+    print(zipped_file)
+    with zipfile.ZipFile(zipped_file, 'r') as zip_ref:
+        zip_ref.extractall(".")
 
-    station_code, station_df = get_station_data(file)
+        all_files = [i for i in Path(str(zipped_file).replace('.zip','')).rglob('*.CSV')]
 
-    if not station_code in stations:
-        stations[station_code] = station_df
+        for file in all_files:
+            try:
+                station_code, station_df = get_station_data(file)
 
-    climate_data = get_climate_data(file)
+                if not station_code in stations:
+                    stations[station_code] = station_df
 
-    climate_data.insert(0, 'ESTACAO', station_code)
+                climate_data = get_climate_data(file)
 
-    climate_data_all.append(climate_data)
+                climate_data.insert(0, 'ESTACAO', station_code)
+
+                climate_data_all.append(climate_data)
+
+            except Exception as e:
+                print('Error in {}!'.format(file))
 
 stations_csv = pd.concat(stations.values())
 climate_csv = pd.concat(climate_data_all)
 
-stations_csv.to_csv('data/automatic_stations_codes.csv',
+stations_csv.to_csv('automatic_stations_codes.csv',
                     sep=';',
                     index=False,
                     encoding='utf-8')
 
-climate_csv.to_csv('data/automatic_weather_stations_inmet_brazil.csv',
+climate_csv.to_csv('automatic_weather_stations_inmet_brazil_2000_2019.csv',
                    sep=';',
                    index=False,
                    encoding='utf-8')
