@@ -1,4 +1,4 @@
-\chapter{Criação dos Modelos de Machine Learning}
+\chapter{Criação dos Modelos de Aprendizado de Máquina}
 
 Nesta seção, apresentaremos os modelos preditivos desenvolvidos em linguagem Python para a previsão da temperatura para o ano de 2019 utilizando modelos treinados com dados anteriores. Neste trabalho, avaliamos dois modelos preditivos para a previsão da temperatura, o modelo Autoregressive Integrated Moving Average (ARIMA) \cite{whittle1951hypothesis} e um modelo baseado em redes neurais recorrentes utilizando a arquitetura Long Short-Term Memory (LSTM) \cite{hochreiter1997long}.
 
@@ -123,7 +123,7 @@ Apresentamos o resultado da verificação da estacionalidade das estações util
     \label{fig:estacionalidade_seria_original_3}
 \end{figure}
 
-Pelo valor de p ser maior que 0,05, podemos afirmar que a primeira e a última série não são estacionarias, enquanto a segunda série, com o valor de p próximo de ~0,01, indica que a série é estacionária. Para garantirmos que todas as séries utilizadas por nosso modelo sejam estacionárias, aplicamos uma diferenciação de primeira ordem com o objetivo de trona-las todas séries estacionarias. 
+Pelo valor de p ser maior que 0,05, podemos afirmar que a primeira e a última série não são estacionarias, enquanto a segunda série, com o valor de p próximo de ~0,01, indica que a série é estacionária. Para garantirmos que todas as séries utilizadas por nosso modelo sejam estacionárias, aplicamos uma diferenciação de primeira ordem com o objetivo de torna-las todas séries estacionarias. 
 
 Após o processo de diferenciação, realizamos novamente o teste de Dickey-Fuller aumentado e obtivemos os resultados apresentados das figuras \ref{fig:estacionalidade_seria_diferenciada_1}, \ref{fig:estacionalidade_seria_diferenciada_2} e \ref{fig:estacionalidade_seria_diferenciada_3}.  
 
@@ -152,7 +152,7 @@ Após a diferenciação, todas as séries ficaram com o valor p abaixo de 0,05 e
 
 \subsection{Parametrizando o modelo ARIMA}
 
-Para a parametrização do modelo, utilizamos a abordagem proposta por \cite{hyndman2007automatic}. Essa abordagem testa iterativamente um conjunto de parâmetros buscando encontrar a combinação que gera um modelo com o menor valor para a métrica Akaike information criterion (AIC) \cite{sakamoto1986akaike}, ou seja, ele buscar o melhor modelo ajustado sem ter que testar exaustivamente todas as combinações possíveis. Apesar dessa abordagem buscar o modelo com a melhor combinação de parâmetros, é necessário informar antecipadamente o intervalo de possíveis valores para os parâmetros que ele utilizará para testar os modelos. Apresentamos na Tabela \ref{tab:lista_parametros_arima} a lista dos principais parâmetros que serão ajustados.
+Para a parametrização do modelo, utilizamos a abordagem proposta por \citeonline{hyndman2007automatic}. Essa abordagem testa iterativamente um conjunto de parâmetros buscando encontrar a combinação que gera um modelo com o menor valor para a métrica Akaike Information Criterion (AIC) \cite{sakamoto1986akaike}, ou seja, ele busca o melhor modelo ajustado sem ter que testar exaustivamente todas as combinações possíveis. Apesar dessa abordagem buscar o modelo com a melhor combinação de parâmetros, é necessário informar antecipadamente o intervalo de possíveis valores para os parâmetros que ele utilizará para testar os modelos. Apresentamos na Tabela \ref{tab:lista_parametros_arima} a lista dos principais parâmetros que serão ajustados.
 
 \begin{table}[H]
 \caption{Parâmetros do modelo que serão ajustados iterativamente.}
@@ -178,7 +178,7 @@ D & termo de diferenciação para a parte sazonal \\
 \end{adjustbox}
 \end{table}
 
-Realizamos a busca pelo melhor modelo para cada uma das estações 88 estações selecionadas para análise. Para o processamento utilizamos a biblioteca escrita na linguagem Python pmdarima \cite{smith2017pmdarima}, versão 1.7.1. A Figura \ref{fig:parametros_auto_arima} apresenta todos parâmetros utilizados pela biblioteca pmdarima para buscar o melhor modelo para cada uma das estações avaliadas. 
+Realizamos a busca pelo melhor modelo para cada uma das 88 estações selecionadas para análise. Para o processamento utilizamos a biblioteca escrita na linguagem Python pmdarima \cite{smith2017pmdarima}, versão 1.7.1. A Figura \ref{fig:parametros_auto_arima} apresenta todos parâmetros utilizados pela biblioteca pmdarima para buscar o melhor modelo para cada uma das estações avaliadas. 
 
 \begin{figure}[H]
 \centering
@@ -189,15 +189,15 @@ Realizamos a busca pelo melhor modelo para cada uma das estações 88 estações
 
 \section{Criação do modelo LSTM}
 
-As redes neurais recorrente do tipo Long Short-Term Memory (LSTM) tem a promessa de aprender longas sequências de observações, o que é desejável em nosso caso, já que possuímos algumas estações convencionais com observações que datam do ano 1961, ou seja, 58 anos de observações.  Mas para isso, elas exigem que sejam utilizados grandes conjuntos de dados de treinamento. Nesta seção,  apresentaremos a arquitetura desenvolvida e os passos executados para realizar as previsões utilizando este modelo. 
+As redes neurais recorrente do tipo Long Short-Term Memory (LSTM) tem a promessa de aprender longas sequências de observações, o que é desejável em nosso caso, já que possuímos algumas estações convencionais com observações que datam do ano 1961, ou seja, 58 anos de observações.  Mas para isso, elas exigem que utilizemos grandes conjuntos de dados de treinamento. Nesta seção,  apresentaremos a arquitetura desenvolvida e os passos executados para realizar as previsões utilizando este modelo. 
 
 \subsection{Conjunto de dados de treinamento, validação e teste}
 
-Para o treinamento e análise da acurácia do modelo, os dados foram separados em três conjuntos distintos, treinamento, validação e teste. Segundo \citeonline{hastie2009elements}, o conjunto de treinamento deve é usado para ajustar o modelo; o conjunto de validação deve usado para estimar o erro da predição do modelo e o conjunto de teste deve ser utilizado para avaliação o erro da generalização do modelo final escolhido. 
+Para o treinamento e análise da acurácia do modelo, os dados foram separados em três conjuntos distintos, treinamento, validação e teste. Segundo \citeonline{hastie2009elements}, o conjunto de treinamento deve ser usado para ajustar o modelo; o conjunto de validação deve ser usado para estimar o erro da predição do modelo, e o conjunto de teste deve ser utilizado para a avaliação do erro da generalização do modelo final escolhido. 
 
-Para o conjunto de teste, assim como no modelo ARIMA, utilizamos as 88 estações que selecionamos na Figura \ref{tab:amostra_estacoes} como amostras para a avaliação dos modelos. O conjunto de treinamento e validação geramos a partir das estações restantes, ou seja, de todas as 878 estações, utilizamos mesma 88, que foram utilizadas no modelo ARIMA,  para a geração dos dados de teste e as 788 estações restantes utilizamos para o treinamento e validação do modelo LSTM.
+Para o conjunto de teste, assim como no modelo ARIMA, utilizamos as mesmas 88 estações que selecionamos na Figura \ref{tab:amostra_estacoes} como amostras para a avaliação dos modelos. O conjunto de treinamento e validação geramos a partir das estações restantes, ou seja, de todas as 878 estações, utilizamos as mesmas 88 estações, que foram utilizadas no modelo ARIMA,  para a geração dos dados de teste e as 788 estações restantes utilizamos para o treinamento e validação do modelo LSTM.
 
-O nosso modelo recebera como dado de entrada, chamaremos de X, uma série de observações de temperatura e retornará como previsão, chamaremos aqui de Y, os valores de temperatura média previstos para o próximo ano. Para criarmos um grande conjunto de dados de treinamento, ao invés de dividirmos uma série temporal em um único par (X, Y) utilizando Y como o último ano e X como os dados dos anos anteriores, vamos utilizar aqui deslocamentos de um ano na série para obtermos, de uma única série, múltiplos pares (X, Y). Na Tabela \ref{tab:dados_de_treinament_lstm} apresentamos todos os períodos utilizados para gerar os valores (X, Y) que foram utilizados para treinar o modelo LSTM. 
+O nosso modelo receberá como dado de entrada, chamaremos de X, uma série de observações de temperatura e retornará como previsão, chamaremos aqui de Y, os valores de temperatura média previstos para o próximo ano. Para criarmos um grande conjunto de dados de treinamento, ao invés de dividirmos uma série temporal em um único par (X, Y) utilizando Y como o último ano e X como os dados dos anos anteriores, vamos utilizar aqui deslocamentos de um ano na série para obtermos, de uma única série, múltiplos pares (X, Y). Na Tabela \ref{tab:dados_de_treinament_lstm} apresentamos todos os períodos utilizados para gerar os valores (X, Y) que foram utilizados para treinar o modelo LSTM. 
 
 \begin{table}[H]
 \centering
@@ -232,7 +232,7 @@ todos os dados antes de 01/01/2010  & 01/01/2010 - 31/12/2010 \\
 \end{adjustbox}
 \end{table}
 
-Após processar todos os períodos, obtivemos 5.137 séries os os valores  entrada (X) e 5.137 séries com os valores esperados. Destas, 75\% dos pares(X, Y) foram alocados no conjunto de treinamento e 25\% foram alocados no conjunto de validação.  
+Após processar todos os períodos, obtivemos 5.137 séries com os valores de entrada (X) e 5.137 séries com os valores esperados (Y). Destas, 75\% dos pares(X, Y) foram alocados no conjunto de treinamento e 25\% foram alocados no conjunto de validação.  
 
 
 \subsection{Normalização dos dados}
@@ -246,7 +246,7 @@ Para a construção do modelo, utilizamos a biblioteca TensorFlow, versão 2.3.0
 \begin{figure}[H]
 \centering
 \caption{Arquitetura LSTM desenvolvida.}
-\includegraphics[width=0.7\textwidth]{figuras/lstm_model.png}
+\includegraphics[width=0.5\textwidth]{figuras/lstm_model.png}
 \label{fig:modelo_lstm}
 \end{figure}
 
@@ -258,3 +258,7 @@ Para o treinamento do modelo, utilizamos lotes com 128 itens, treinando por 44 �
 \includegraphics[width=\textwidth]{figuras/grafico_de_perda.png}
 \label{fig:perda_modelo}
 \end{figure}
+
+\renewcommand{\cleardoublepage}{}
+\renewcommand{\clearpage}{}
+\vspace{5mm}

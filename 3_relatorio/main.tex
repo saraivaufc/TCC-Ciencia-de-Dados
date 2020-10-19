@@ -25,6 +25,13 @@
 \setlength{\cftbeforechapskip}{0pt}
 \let\cleardoublepage\clearpage
 
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\scr@startchapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\makeatother
+
+\usepackage{blindtext}
+
 \begin{document}
 
 \include{elementos-pre-textuais/Capa}
