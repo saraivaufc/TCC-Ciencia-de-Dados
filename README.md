@@ -1,4 +1,6 @@
-## Título: Previsão da Temperatura do Ar no Brasil Utilizando Estações Meteorológicas e Modelos de Aprendizado de Máquina¶
+## Título: Previsão da Temperatura do Ar no Brasil Utilizando Estações Meteorológicas e Modelos de Aprendizado de Máquina
+
+## Curso: Especialização em Ciência de Dados e Big Data da PUC Minas
 
 ## Documentos: 
 
