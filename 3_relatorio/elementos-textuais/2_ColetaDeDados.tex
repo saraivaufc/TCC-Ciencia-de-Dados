@@ -11,9 +11,9 @@ Neste projeto, utilizamos três diferentes conjuntos de dados meteorológicos. O
 
 \section{Coleta dos Dados das Estações Meteorológicas Convencionais do INMET}
 
-Distribuídas ao longo de todo o território brasileiro, as estações meteorológicas convencionais vinculadas ao INMET representam os dados com maior série histórica dos três conjuntos, com observações que datam o ano de 1961. Ao todo, foram obtidas mais de 12 milhões de observações coletadas de todas as estações convencionais do INMET para o período de 1961 à 2019. Nas estações convencionais do INMET, cada observação corresponde à uma coleta realizada pelo observador em alguns momentos do dia. 
+Distribuídas ao longo de todo o território brasileiro, as estações meteorológicas convencionais vinculadas ao INMET representam o conjunto de dados com maior série histórica dos três conjuntos, com observações que datam o ano de 1961. Ao todo, foram obtidas mais de 12 milhões de observações coletadas de todas as estações convencionais do INMET para o período de 1961 à 2019. Nas estações convencionais do INMET, cada observação corresponde à uma coleta realizada pelo observador em alguns períodos escolhidos do dia. 
 
-Os dados das estações convencionais do INMET foram baixados, de forma automatizada, em fevereiro de 2020 a partir do antigo portal do INMET\footnote{O antigo portal do INMET encontrava-se disponível, até a data do download dos dados, no endereço \href{http://www.inmet.gov.br}{http://www.inmet.gov.br}} utilizando a biblioteca Selenium \cite{salunke2014selenium}, versão 3.141.0. Desenvolvemos um script na linguagem de programação Python que percorreu cada uma das estações realizando o \textit{download}, em formato HTML, de todas as variáveis disponíveis na plataforma. A Tabela \ref{tab:variaveis_estacoes_convencionais} apresenta a lista das variáveis disponíveis nas estações convencionais.
+Os dados das estações convencionais do INMET foram baixados, de forma automatizada, em fevereiro de 2020, a partir do antigo portal do INMET\footnote{O antigo portal do INMET encontrava-se disponível, até a data do download dos dados, no endereço \href{http://www.inmet.gov.br}{http://www.inmet.gov.br}} utilizando a biblioteca Selenium \cite{salunke2014selenium}, versão 3.141.0. Desenvolvemos um script na linguagem de programação Python que percorreu cada uma das estações realizando o \textit{download}, em formato HTML, de todas as variáveis disponíveis na plataforma. A Tabela \ref{tab:variaveis_estacoes_convencionais} apresenta a lista das variáveis disponíveis nas estações convencionais.
 
 \begin{table}[h!]
 \caption{Variáveis disponíveis no conjunto de dados das estações meteorológicas convencionais do INMET.}
@@ -67,12 +67,12 @@ Velocidade do Vento Media & Velocidade Média do Vento & m/s\\
 
 \section{Coleta dos Dados das Estações Meteorológicas Automáticas do INMET}
 
-O segundo conjunto de dados utilizados foram obtidos das estações meteorológicas automáticas vinculadas ao INMET, assim como as convencionais, distribuídas por todo o território nacional. Diferente das estações convencionais que possuem três observações ao longo do dia, e dados desde de 1961, as estações automáticas do INMET coletam dados a cada uma hora desde o ano de 2000. Ao todo, obtivemos quase 55 milhões de observações coletadas de todas as 610 estações meteorológicas automáticas do INMET, para o período de 2000 à 2019.
+O segundo conjunto de dados utilizado neste trabalho foi obtido das estações meteorológicas automáticas vinculadas ao INMET, assim como as convencionais, distribuídas por todo o território nacional. Diferente das estações convencionais, que possuem três observações ao longo do dia, e dados desde 1961, as estações automáticas do INMET coletam dados horários desde o ano de 2000. Ao todo, foram baixadas quase 55 milhões de observações coletadas de todas as 610 estações meteorológicas automáticas do INMET, para o período de 2000 à 2019.
 
-Os dados de cada uma das estações automáticas foram baixados em agosto de 2020 diretamente do novo portal do INMET\footnote{O novo portal do INMET encontrava-se disponível, até a data do download dos dados, no endereço \href{https://portal.inmet.gov.br/}{https://portal.inmet.gov.br/}} em formato CSV. A Tabela  \ref{tab:variaveis_estacoes_automaticas} apresenta a lista das variáveis disponíveis nos dados baixados.
+Os dados de cada uma das estações automáticas foram baixados, em formato CSV, em agosto de 2020 diretamente do novo portal do INMET\footnote{O novo portal do INMET encontrava-se disponível, até a data do download dos dados, no endereço \href{https://portal.inmet.gov.br/}{https://portal.inmet.gov.br/}} . A Tabela  \ref{tab:variaveis_estacoes_automaticas} apresenta a lista das variáveis disponíveis nos dados baixados.
 
 \begin{table}[h!]
-\caption{Variáveis disponíveis no conjunto de dados das estações meteorológicas automáticas do INMET}
+\caption{Variáveis disponíveis no conjunto de dados das estações meteorológicas automáticas do INMET.}
 \label{tab:variaveis_estacoes_automaticas}
 \begin{adjustbox}{width=\textwidth}
 \begin{tabular}{|l|l|l|}
@@ -125,7 +125,7 @@ VENTO, VELOCIDADE HORARIA (m/s) & Velocidade Média do Vento & m/s\\
 
 \section{Coleta dos Dados das Estações Meteorológicas Automáticas do LabMet}
 
-O último conjunto de dados utilizado foi obtido de 3 estações meteorológicas automáticas localizadas no Vale do Rio São Francisco, entre os estados da Bahia e Pernambuco. Estas estações são administradas pelo Laboratório de Meteorologia da Universidade Federal do Vale do São Francisco (LabMet), que disponibiliam dados diário das estações através de seu portal\footnote{O portal do LabMet encontrava-se disponível, até a data de agosto de 2020, no endereço \href{http://labmet.univasf.edu.br}{http://labmet.univasf.edu.br}}. Ao todo, baixamos, em formato XLS, mais de 9 mil registros disponibilizados para as três estações automáticas entre o período de 2007 à 2020. A Tabela \ref{tab:estacoes_automaticas_labmet} descreve as variáveis contidas no conjunto de dados. 
+O último conjunto de dados utilizado foi obtido de 3 estações meteorológicas automáticas localizadas no Vale do Rio São Francisco, entre os estados da Bahia e Pernambuco. Estas estações são administradas pelo Laboratório de Meteorologia da Universidade Federal do Vale do São Francisco (LabMet), que disponibilizam dados diário das estações através de seu portal\footnote{O portal do LabMet encontrava-se disponível, até a data de agosto de 2020, no endereço \href{http://labmet.univasf.edu.br}{http://labmet.univasf.edu.br}}. Ao todo, baixamos, em formato XLS, mais de 9 mil registros disponibilizados para as três estações automáticas entre o período de 2007 à 2020. A Tabela \ref{tab:estacoes_automaticas_labmet} descreve as variáveis contidas no conjunto de dados. 
 
 \begin{table}[h!]
 \caption{Descrição dos campos/colunas dos datasets.}

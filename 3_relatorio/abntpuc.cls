@@ -509,6 +509,7 @@
 
 % --- REFERENCIAS ---
 
+% \usepackage[alf]{abntex2cite}
 \usepackage[alf]{abntcite}
 
 \def\@makeschapterhead#1{

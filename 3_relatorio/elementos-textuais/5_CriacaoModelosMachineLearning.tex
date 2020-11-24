@@ -1,12 +1,12 @@
 \chapter{Criação dos Modelos de Aprendizado de Máquina}
 
-Nesta seção, apresentaremos os modelos preditivos desenvolvidos em linguagem Python para a previsão da temperatura para o ano de 2019 utilizando modelos treinados com dados anteriores. Neste trabalho, avaliamos dois modelos preditivos para a previsão da temperatura, o modelo Autoregressive Integrated Moving Average (ARIMA) \cite{whittle1951hypothesis} e um modelo baseado em redes neurais recorrentes utilizando a arquitetura Long Short-Term Memory (LSTM) \cite{hochreiter1997long}.
+Nesta seção, apresentaremos os modelos preditivos desenvolvidos em linguagem Python para a previsão da temperatura para o ano de 2019 utilizando modelos treinados com dados de anos anteriores. Neste trabalho, avaliamos dois modelos preditivos para a previsão da temperatura, o modelo Autoregressive Integrated Moving Average (ARIMA) \cite{whittle1951hypothesis} e um modelo baseado em redes neurais recorrentes utilizando a arquitetura Long Short-Term Memory (LSTM) \cite{hochreiter1997long}.
 
 O modelo ARIMA é um dos modelos lineares mais populares na previsão de séries temporais das últimas décadas, sua popularidade é devido, principalmente, às suas propriedades estatísticas, bem como à conhecida metodologia Box-Jenkins \cite{box2011time} no processo de construção do modelo \cite{zhang2003time}. 
 
-Rede Neural Recorrente (RNN) é um tipo de Rede Neural onde a saída da etapa anterior é alimentada como entrada para a etapa atual, ou seja, ela possui uma “memória” que guarda todas as informações sobre o que foi calculado. A arquitetura de RNN que utilizamos foi a chamada Long Short-Term Memory - LSTM, uma arquitetura de rede neural recorrente específica que foi projetada para modelar sequências temporais e suas dependências de longo alcance com mais precisão do que RNNs convencionais \cite{sak2014long}, características importante quando trabalhamos com longas séries temporais como os dados histórico de temperatura no Brasil. 
+Rede Neural Recorrente (RNN) é um tipo de Rede Neural onde a saída da etapa anterior é alimentada como entrada para a etapa atual, ou seja, ela possui uma “memória” que guarda todas as informações sobre o que foi calculado. A arquitetura de RNN que utilizamos foi a chamada Long Short-Term Memory - LSTM, uma arquitetura de rede neural recorrente específica que foi projetada para modelar sequências temporais e suas dependências de longo alcance com mais precisão do que RNNs convencionais \cite{sak2014long}, característica importante quando trabalhamos com longas séries temporais como os dados histórico de temperatura no Brasil. 
 
-Para avaliarmos os modelos que serão desenvolvidos, selecionamos, através de uma amostragem aleatória simples, 10\% das estações convencionais do INMET, 10\% das estações automáticas também do INMET e uma estação automática do LabMet. Após a mostragem, temos um conjunto de amostra de estações que guardam a mesma proporção do conjunto contendo todas as estações. Ao todo, utilizamos 88 estações para avaliar os modelos.  A Tabela \ref{tab:amostra_estacoes} apresenta a quantidade de estações que foram usadas para a avaliação dos modelos de previsão.  
+Para avaliarmos os modelos desenvolvidos, selecionamos, através de uma amostragem aleatória simples, 10\% das estações convencionais do INMET, 10\% das estações automáticas também do INMET e uma estação automática do LabMet. Após a mostragem, temos um conjunto de amostra de estações que guardam a mesma proporção do conjunto contendo todas as estações. Ao todo, utilizamos 88 estações para avaliar os modelos.  A Tabela \ref{tab:amostra_estacoes} apresenta a quantidade de estações que usamos para a avaliação dos modelos de previsão.  
 
 \begin{table}[H]
 \caption{Proporção de estações utilizadas para avaliar os modelos desenvolvidos.}
@@ -36,13 +36,13 @@ Uma abstração útil para selecionar métodos de previsão é quebrar uma séri
 
 Pensando nisso, podemos dividir os componentes das séries temporais em:
 \begin{itemize}
-  \item Nível: o valor médio da série.
-  \item Tendência: o valor crescente ou decrescente na série.
-  \item Sazonalidade: o ciclo repetitivo de curto prazo na série.
-  \item Ruído: a variação aleatória da série.
+  \item nível: o valor médio da série;
+  \item tendência: o valor crescente ou decrescente na série;
+  \item sazonalidade: o ciclo repetitivo de curto prazo na série;
+  \item ruído: a variação aleatória da série.
 \end{itemize}
 
-Para esta analise, iremos apresentar apenas os resultados para três estações de exemplo que foram escolhidas a partir das estações de avaliação.
+Para esta analise, apresentaremos apenas os resultados para três estações de exemplo que foram escolhidas a partir das estações de avaliação.
 
 Decompondo as séries temporais das estações de exemplo, obtivemos os resultados apresentados nas figuras \ref{fig:decomposicao_1}, \ref{fig:decomposicao_2} e \ref{fig:decomposicao_3}.
 
@@ -67,11 +67,11 @@ Decompondo as séries temporais das estações de exemplo, obtivemos os resultad
     \label{fig:decomposicao_3}
 \end{figure}
 
-Observando os componentes das séries temporais de exemplo, é possível observarmos uma forte tendencia anual nos dados de temperatura, confirmando a hipótese de que essa variável possui essa característica em seu comportamento.
+Observando os componentes das séries temporais de exemplo, é possível identificarmos uma forte tendencia anual nos dados de temperatura, confirmando a hipótese de que essa variável possui esta característica em seu comportamento.
 
 \subsection{Autocorrelação das séries temporais}
 
-Ao plotarmos a Autocorrelação para essas mesmas estações de exemplo, temos as figuras \ref{fig:correlacao_1}, \ref{fig:correlacao_2} e \ref{fig:correlacao_3}. 
+Ao plotarmos a autocorrelação as estações de exemplo, temos as figuras \ref{fig:correlacao_1}, \ref{fig:correlacao_2} e \ref{fig:correlacao_3}. 
 
 \begin{figure}[H]
     \centering
@@ -94,61 +94,61 @@ Ao plotarmos a Autocorrelação para essas mesmas estações de exemplo, temos a
     \label{fig:correlacao_3}
 \end{figure}
 
-Verificando os gráficos de autocorrelação, podemos verificar que não há uma alta autocorrelação nas estações de exemplo, por isso há a necessidade de se utilizar um modelo auto-arima para identificação do melhor modelo de forma automática.
+Verificando os gráficos de autocorrelação, podemos identificar que não há uma alta autocorrelação nas estações de exemplo, por isso há a necessidade de se utilizar um modelo auto-arima para identificação do melhor modelo de forma automática.
 
-\subsection{Verificando a estacionalidade}
+\subsection{Verificando a estacionariedade}
 
 A maioria dos modelos de previsão de séries temporais exigem que os dados sejam estacionários. Uma série temporal é considerada estacionária se suas propriedades estatísticas, como média, variância e covariância permanecerem constantes ao longo do tempo \cite{box2011time}. Para verificarmos se as séries que estamos trabalhando são estacionárias, utilizamos o teste de Dickey-Fuller aumentado \cite{said1984testing}. 
 
-Apresentamos o resultado da verificação da estacionalidade das estações utilizadas como exemplo nas Figuras \ref{fig:estacionalidade_seria_original_1}, \ref{fig:estacionalidade_seria_original_2} e \ref{fig:estacionalidade_seria_original_3}.
+Apresentamos, nas figuras  \ref{fig:estacionariedade_seria_original_1}, \ref{fig:estacionariedade_seria_original_2} e \ref{fig:estacionariedade_seria_original_3}, o resultado da verificação da estacionariedade das estações utilizadas como exemplo.
 
 \begin{figure}[H]
     \centering
-    \caption{Teste de estacionalidade da série temporal da temperatura do ar para a estação convencional localizada no município de Balsas, no estado do Maranhão.}
+    \caption{Teste de estacionariedade da série temporal da temperatura do ar para a estação convencional localizada no município de Balsas, no estado do Maranhão.}
     \includegraphics[width=0.9\textwidth]{figuras/dickey_fuller_raw_82768.png}
-    \label{fig:estacionalidade_seria_original_1}
+    \label{fig:estacionariedade_seria_original_1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \caption{Teste de estacionalidade da série temporal da temperatura do ar para a estação automática localizada no município de Ariranha, no estado de São Paulo.}
+    \caption{Teste de estacionariedade da série temporal da temperatura do ar para a estação automática localizada no município de Ariranha, no estado de São Paulo.}
     \includegraphics[width=0.9\textwidth]{figuras/dickey_fuller_raw_A736.png}
-    \label{fig:estacionalidade_seria_original_2}
+    \label{fig:estacionariedade_seria_original_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \caption{Teste de estacionalidade da série temporal da temperatura do ar para a estação automática localizada no município de Petrolina, no estado de Pernambuco.}
+    \caption{Teste de estacionariedade da série temporal da temperatura do ar para a estação automática localizada no município de Petrolina, no estado de Pernambuco.}
     \includegraphics[width=0.9\textwidth]{figuras/dickey_fuller_raw_712f3e11658051636f09732a60fb3c1b.png}
-    \label{fig:estacionalidade_seria_original_3}
+    \label{fig:estacionariedade_seria_original_3}
 \end{figure}
 
-Pelo valor de p ser maior que 0,05, podemos afirmar que a primeira e a última série não são estacionarias, enquanto a segunda série, com o valor de p próximo de ~0,01, indica que a série é estacionária. Para garantirmos que todas as séries utilizadas por nosso modelo sejam estacionárias, aplicamos uma diferenciação de primeira ordem com o objetivo de torna-las todas séries estacionarias. 
+Pelo valor de p ser maior que 0,05, podemos afirmar que a primeira e a última série não são estacionarias. Já a segunda série, com o valor de p próximo de 0,01, indica que a série é estacionária. Para garantirmos que todas as séries utilizadas por nosso modelo sejam estacionárias, aplicamos uma diferenciação de primeira ordem com o objetivo de torna-las todas séries estacionarias. 
 
-Após o processo de diferenciação, realizamos novamente o teste de Dickey-Fuller aumentado e obtivemos os resultados apresentados das figuras \ref{fig:estacionalidade_seria_diferenciada_1}, \ref{fig:estacionalidade_seria_diferenciada_2} e \ref{fig:estacionalidade_seria_diferenciada_3}.  
+Após o processo de diferenciação, realizamos novamente o teste de Dickey-Fuller aumentado e obtivemos os resultados apresentados das figuras \ref{fig:estacionariedade_seria_diferenciada_1}, \ref{fig:estacionariedade_seria_diferenciada_2} e \ref{fig:estacionariedade_seria_diferenciada_3}.  
 
 \begin{figure}[H]
     \centering
-    \caption{Teste de estacionalidade da série temporal diferenciada da temperatura do ar para a estação convencional localizada no município de Balsas, no estado do Maranhão.}
+    \caption{Teste de estacionariedade da série temporal diferenciada da temperatura do ar para a estação convencional localizada no município de Balsas, no estado do Maranhão.}
     \includegraphics[width=0.9\textwidth]{figuras/dickey_fuller_diff_82768.png}
-    \label{fig:estacionalidade_seria_diferenciada_1}
+    \label{fig:estacionariedade_seria_diferenciada_1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \caption{Teste de estacionalidade da série temporal diferenciada da temperatura do ar para a estação automática localizada no município de Ariranha, no estado de São Paulo.}
+    \caption{Teste de estacionariedade da série temporal diferenciada da temperatura do ar para a estação automática localizada no município de Ariranha, no estado de São Paulo.}
     \includegraphics[width=0.9\textwidth]{figuras/dickey_fuller_diff_A736.png}
-    \label{fig:estacionalidade_seria_diferenciada_2}
+    \label{fig:estacionariedade_seria_diferenciada_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \caption{Teste de estacionalidade da série temporal diferenciada da temperatura do ar para a estação automática localizada no município de Petrolina, no estado de Pernambuco.}
+    \caption{Teste de estacionariedade da série temporal diferenciada da temperatura do ar para a estação automática localizada no município de Petrolina, no estado de Pernambuco.}
     \includegraphics[width=0.9\textwidth]{figuras/dickey_fuller_diff_712f3e11658051636f09732a60fb3c1b.png}
-    \label{fig:estacionalidade_seria_diferenciada_3}
+    \label{fig:estacionariedade_seria_diferenciada_3}
 \end{figure}
 
-Após a diferenciação, todas as séries ficaram com o valor p abaixo de 0,05 e consequentemente passaram no teste da estacionalidade. Agora será possível parametrizarmos e treinarmos o modelo de previsão ARIMA. 
+Após a diferenciação, todas as séries obtiveram um valor de p abaixo de 0,05 e consequentemente passaram no teste da estacionariedade. Após este etapa, foi possível parametrizarmos e treinarmos o modelo de previsão ARIMA. 
 
 \subsection{Parametrizando o modelo ARIMA}
 
@@ -180,20 +180,32 @@ D & termo de diferenciação para a parte sazonal \\
 
 Realizamos a busca pelo melhor modelo para cada uma das 88 estações selecionadas para análise. Para o processamento utilizamos a biblioteca escrita na linguagem Python pmdarima \cite{smith2017pmdarima}, versão 1.7.1. A Figura \ref{fig:parametros_auto_arima} apresenta todos parâmetros utilizados pela biblioteca pmdarima para buscar o melhor modelo para cada uma das estações avaliadas. 
 
+
 \begin{figure}[H]
 \centering
 \caption{Parâmetros utilizados na função auto\_arima, da biblioteca pmdarima, para buscar o melhor modelo ajustado.}
-\includegraphics[width=0.9\textwidth]{figuras/parametros_autoarima.png}
+\begin{lstlisting}[language=Python]
+arima_model = auto_arima(train_data_diff, 
+                         start_p=1, start_q=1, 
+                         test='adf',
+                         max_p=3, max_q=3, m=period,
+                         start_P=0, seasonal=True, 
+                         d=None, D=1, 
+                         stepwise=True,                 
+                         trace=True,
+                         random_state=20, n_fits=10
+                        )
+\end{lstlisting}
 \label{fig:parametros_auto_arima}
 \end{figure}
 
 \section{Criação do modelo LSTM}
 
-As redes neurais recorrente do tipo Long Short-Term Memory (LSTM) tem a promessa de aprender longas sequências de observações, o que é desejável em nosso caso, já que possuímos algumas estações convencionais com observações que datam do ano 1961, ou seja, 58 anos de observações.  Mas para isso, elas exigem que utilizemos grandes conjuntos de dados de treinamento. Nesta seção,  apresentaremos a arquitetura desenvolvida e os passos executados para realizar as previsões utilizando este modelo. 
+As redes neurais recorrente do tipo Long Short-Term Memory (LSTM) tem a promessa de aprender longas sequências de observações, o que é desejável em nosso caso, já que possuímos algumas estações convencionais com observações que datam do ano 1961, ou seja, 58 anos de observações.  Mas para isso, elas exigem grandes conjuntos de dados de treinamento. Nesta seção,  apresentaremos a arquitetura desenvolvida e os passos executados para realizar as previsões utilizando este modelo. 
 
-\subsection{Conjunto de dados de treinamento, validação e teste}
+\subsection{Conjuntos de dados de treinamento, validação e teste}
 
-Para o treinamento e análise da acurácia do modelo, os dados foram separados em três conjuntos distintos, treinamento, validação e teste. Segundo \citeonline{hastie2009elements}, o conjunto de treinamento deve ser usado para ajustar o modelo; o conjunto de validação deve ser usado para estimar o erro da predição do modelo, e o conjunto de teste deve ser utilizado para a avaliação do erro da generalização do modelo final escolhido. 
+Para o treinamento e análise da acurácia do modelo, os dados foram separados em três conjuntos distintos: treinamento, validação e teste. Segundo \citeonline{hastie2009elements}, o conjunto de treinamento deve ser usado para ajustar o modelo; o conjunto de validação deve ser usado para estimar o erro da predição do modelo, e o conjunto de teste deve ser utilizado para a avaliação do erro da generalização do modelo final escolhido. 
 
 Para o conjunto de teste, assim como no modelo ARIMA, utilizamos as mesmas 88 estações que selecionamos na Figura \ref{tab:amostra_estacoes} como amostras para a avaliação dos modelos. O conjunto de treinamento e validação geramos a partir das estações restantes, ou seja, de todas as 878 estações, utilizamos as mesmas 88 estações, que foram utilizadas no modelo ARIMA,  para a geração dos dados de teste e as 788 estações restantes utilizamos para o treinamento e validação do modelo LSTM.
 
@@ -241,7 +253,7 @@ Para normalizar os dados de treinamento, utilizamos a função MinMaxScaler da b
 
 \subsection{Modelo LSTM desenvolvido}
 
-Para a construção do modelo, utilizamos a biblioteca TensorFlow, versão 2.3.0. O modelo desenvolvido utiliza duas camadas LSTM, com 128 neurônios do tipo LSTM cada. Como camada de saída utilizamos uma camada densamente conectada com  ativação linear e 26 neurônios, cada neurônio será responsável por prevê um dos 26 períodos de duas semanas que compõe o ano que será previsto pelo modelo. Configuramos o modelo para utilizar o otimizador Adam com taxa de aprendizado de 0,001. Como função de perda utilizamos o Mean Squared Error (MSE) e como métrica de avaliação o Mean Absolute Error (MAE). A Figura \ref{fig:modelo_lstm} ilustra o modelo completo desenvolvido. 
+Para a construção do modelo LSTM, utilizamos a biblioteca TensorFlow, versão 2.3.0. O modelo desenvolvido utiliza duas camadas LSTM, com 128 neurônios do tipo LSTM cada. Como camada de saída utilizamos uma camada densamente conectada com  ativação linear e 26 neurônios, cada neurônio será responsável por prevê um dos 26 períodos de duas semanas que compõe o ano que será previsto pelo modelo. Configuramos o modelo para utilizar o otimizador Adam com taxa de aprendizado de 0,001. Como função de perda utilizamos o Mean Squared Error (MSE) e como métrica de avaliação o Mean Absolute Error (MAE). A Figura \ref{fig:modelo_lstm} ilustra o modelo completo desenvolvido. 
 
 \begin{figure}[H]
 \centering

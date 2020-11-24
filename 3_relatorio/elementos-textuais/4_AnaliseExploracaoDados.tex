@@ -1,6 +1,6 @@
 \chapter{Análise e Exploração dos Dados}
 
-Nesta etapa da analise dos dados, uma das primeiras informações que levantamos foi a quantidade de estações por estado. Na Figura \ref{fig:estacoes_por_estado} podemos observar que os estados com maior quantidade de estações meteorológicas instalados são, em primeiro lugar, Minas Gerais com 116 estações, seguido pelos estados da Bahia com 78 estações,  Rio Grande do Sul com 62 estações e São Paulo com 54 estações. Em contrapartida, os estados de Rondônia,  Roraima, e Amapá possuem apenas 7, 5 e 5 estações, respectivamente.  
+Nesta etapa da analise dos dados, uma das primeiras informações que levantamos foi a quantidade de estações por estado. Na Figura \ref{fig:estacoes_por_estado} podemos observar que os estados com maior quantidade de estações meteorológicas instaladas são, em primeiro lugar, Minas Gerais com 116 estações, seguido pelos estados da Bahia com 78 estações,  Rio Grande do Sul com 62 estações e São Paulo com 54 estações. Em contrapartida, os estados de Rondônia,  Roraima, e Amapá possuem apenas 7, 5 e 5 estações, respectivamente.  
 
 \begin{figure}[H]
     \centering
@@ -9,25 +9,25 @@ Nesta etapa da analise dos dados, uma das primeiras informações que levantamos
     \label{fig:estacoes_por_estado}
 \end{figure}
 
-Dentre estas estações analisadas, há estações convencionais com dados disponíveis deste do ano de 1961, até estações automáticas recentemente instaladas, com dados apenas para os últimos anos. Por isso, é importante entendermos como varia a disponibilidade de dados ao longo de todo o período afim de nos orientarmos melhor na criação dos nossos modelos. Para isso, apresentamos na Figura \ref{fig:disponibilidade_historica_de_dados} a disponibilidade das observações das estações ao longo de todo o período analisado. Podemos observar que a partir do ano de 2002 há um crescimento na quantidade de dados disponíveis, com maiores crescimentos nos anos de 2007 e 2008. Isso se deve pela adoção ao processo de automação de dados meteorológicos através de monitoramento por estacões automáticas que surgiu no Brasil no inicio deste século.  
+Dentre as estações analisadas, há estações convencionais com dados disponíveis deste do ano de 1961, até estações automáticas recentemente instaladas, com dados apenas para os últimos anos. Por isso, é importante entendermos como varia a disponibilidade de dados ao longo de todo o período afim de nos orientarmos melhor na criação dos nossos modelos. Para isto, apresentamos na Figura \ref{fig:disponibilidade_historica_de_dados} a disponibilidade das observações das estações ao longo de todo o período analisado. Podemos observar que a partir do ano de 2002 há um crescimento na quantidade de dados disponíveis, com maiores crescimentos nos anos de 2007 e 2008. Isso se deve pela adoção ao processo de automação de dados meteorológicos através de monitoramento por estacões automáticas que surgiu no Brasil no inicio deste século.  
 
 \begin{figure}[H]
     \centering
-    \caption{Disponibilidade de dados ao longo de todo o período analisado.}
+    \caption{Quantidade de registros disponíveis ao longo de todo o período analisado.}
     \includegraphics[width=0.9\textwidth]{figuras/disponibilizade_historica_de_dados.png}
     \label{fig:disponibilidade_historica_de_dados}
 \end{figure}
 
-Ainda observando a Figura \ref{fig:disponibilidade_historica_de_dados}, é possível observarmos uma declínio de dados em alguns anos específicos. Por exemplo, de 1978 para 1979 houve uma diminuição na quantidade de dados disponíveis. Para entender melhor essa variação, e avaliar melhor a quantidade de dados que ficaram ausentes no conjunto final, adicionamos na Figura \ref{fig:dados_ausentes_ao_longo_anos} também a quantidade de dados que estão ausentes para os anos apresentados.
+Ainda observando a Figura \ref{fig:disponibilidade_historica_de_dados}, é possível identificarmos um declínio na disponibilidade dos dados em alguns anos específicos. Por exemplo, de 1978 para 1979 houve uma diminuição na quantidade de dados disponíveis. Para entendermos melhor essa variação, e avaliarmos melhor a quantidade de dados que ficaram ausentes no conjunto final, ilustramos na Figura \ref{fig:dados_ausentes_ao_longo_anos} a quantidade de registros que estão ausentes para os anos apresentados.
 
 \begin{figure}[H]
     \centering
-    \caption{Quantidade de nulos ao longo de todo o período analisado.}
+    \caption{Quantidade de registos disponíveis e nulos ao longo de todo o período analisado.}
     \includegraphics[width=0.9\textwidth]{figuras/dados_ausentes_ao_longo_anos.png}
     \label{fig:dados_ausentes_ao_longo_anos}
 \end{figure}
 
-A ausência de dados em estações meteorológicas pode ser causada por várias razões, entre elas mudança geográfica da estação, mudança no instrumental, tempo de observação e práticas observacionais utilizadas \cite{oliveira2019estaccao}. 
+A ausência de dados em estações meteorológicas pode ser causada por várias razões, entre elas podemos citar a mudança geográfica da estação, mudança no instrumental, tempo de observação e práticas observacionais utilizadas \cite{oliveira2019estaccao}. 
 
 Uma informação que também é importante identificarmos nos dados, é se, valores extremos que ocorreram, de fato, na realidade, não foram removidos durante o processo de limpeza dos dados.
 Para isso, ilustramos nas Figuras \ref{fig:estacoes_convencionais_maiores_temperaturas} e \ref{fig:estacoes_convencionais_menores_temperaturas} os recordes de temperatura máxima e mínima para as estações convencionais do INMET, pois estas são as que possuem maior série histórica e maior consistência dos valores. 
